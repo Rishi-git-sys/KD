@@ -1,0 +1,18 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: job_portal
+    ports: ["3306:3306"]
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed_data.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+  app:
+    build: .
+    depends_on: [mysql]
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/job_portal?serverTimezone=UTC
+      DB_USER: root
+      DB_PASSWORD: root
+    ports: ["8080:8080"]

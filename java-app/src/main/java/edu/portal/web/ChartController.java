@@ -1,0 +1,3 @@
+package edu.portal.web;
+import org.springframework.beans.factory.annotation.Value; import org.springframework.core.io.*; import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import java.nio.file.*;
+@RestController public class ChartController { @Value("${portal.analysis.output}")String output; @GetMapping("/charts/{file:.+}") ResponseEntity<Resource> chart(@PathVariable String file)throws Exception{Path p=Path.of(output).resolve(file).normalize();if(!p.startsWith(Path.of(output))||!Files.exists(p))return ResponseEntity.notFound().build();return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(new FileSystemResource(p));} }

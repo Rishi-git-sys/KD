@@ -1,0 +1,6 @@
+package edu.portal.web;
+import org.junit.jupiter.api.Test; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest; import org.springframework.boot.test.mock.mockito.MockBean; import org.springframework.test.web.servlet.MockMvc; import static org.mockito.Mockito.*; import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*; import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+@WebMvcTest(PortalController.class) class PortalControllerTest { @Autowired MockMvc mvc; @MockBean JdbcPortalRepository repo;
+ @Test void duplicateApplyRendersFriendlyError() throws Exception {doThrow(new org.springframework.dao.DuplicateKeyException("Duplicate application")).when(repo).apply(1,2);mvc.perform(post("/apply").param("studentId","1").param("vacancyId","2")).andExpect(status().isOk()).andExpect(view().name("error"));}
+ @Test void validStatusTransitionRedirects() throws Exception {mvc.perform(post("/applications/7/status").param("target","SHORTLISTED")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/applications"));verify(repo).status(7,"SHORTLISTED");}
+}

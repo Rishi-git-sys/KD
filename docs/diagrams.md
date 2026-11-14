@@ -5,6 +5,7 @@
 flowchart LR
  Student-->Apply; PlacementCell-->Manage[Manage students, companies and vacancies]; PlacementCell-->Status[Update status]; Analyst-->Reports[Reports and trend analysis]; Apply-->Eligibility[Eligibility and duplicate validation]
 ```
+The web UI adds a browser actor to dashboard, CRUD, application, reporting and analytics use cases; the REST API serves the same read models to external clients.
 ## Class diagram
 ```mermaid
 classDiagram

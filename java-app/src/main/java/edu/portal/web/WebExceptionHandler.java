@@ -1,0 +1,3 @@
+package edu.portal.web;
+import org.springframework.dao.DataAccessException; import org.springframework.ui.Model; import org.springframework.web.bind.annotation.*;
+@ControllerAdvice public class WebExceptionHandler { @ExceptionHandler({DataAccessException.class,IllegalArgumentException.class}) String error(Exception e,Model m){String msg=e.getMessage();m.addAttribute("message",msg!=null&&msg.contains("Duplicate")?"You have already applied for this vacancy.":msg!=null&&msg.contains("eligible")?"You are not eligible for this vacancy.":"The request could not be completed. Please check your input.");return "error";} }
