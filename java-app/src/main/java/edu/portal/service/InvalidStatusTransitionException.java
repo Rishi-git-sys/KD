@@ -1,0 +1,1 @@
+package edu.portal.service; public class InvalidStatusTransitionException extends RuntimeException { public InvalidStatusTransitionException(){super("This application status transition is not permitted.");} }

@@ -1,0 +1,3 @@
+package edu.portal.util;
+import java.io.*; import java.nio.file.*; import java.sql.*;
+public final class CsvExporter { private CsvExporter(){} public static void queryToCsv(String sql,Path path)throws SQLException,IOException {Files.createDirectories(path.getParent());try(Connection c=DBConnection.get();PreparedStatement p=c.prepareStatement(sql);ResultSet r=p.executeQuery();BufferedWriter w=Files.newBufferedWriter(path)){ResultSetMetaData m=r.getMetaData();for(int i=1;i<=m.getColumnCount();i++){if(i>1)w.write(',');w.write(m.getColumnLabel(i));}w.newLine();while(r.next()){for(int i=1;i<=m.getColumnCount();i++){if(i>1)w.write(',');w.write('"'+r.getString(i).replace("\"","\"\"")+'"');}w.newLine();}}} }
